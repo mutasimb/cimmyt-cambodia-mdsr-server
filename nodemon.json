@@ -1,0 +1,9 @@
+{
+  "env": {
+    "DB_HOST": "cl-eia-cambodia.rf0nq3r.mongodb.net",
+    "DB_NAME": "db-mdsr",
+    "DB_USER": "cimmyt-mutasim",
+    "DB_PASSWORD": "qtgra96vpbRSSC6x",
+    "JWT_SECRET": "MRqWopy8cqZBQUPEFemD"
+  }
+}
