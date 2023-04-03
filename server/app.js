@@ -19,6 +19,8 @@ app.use(json());
 
 // routes
 app.use("/api/users", require("./routes/users.js"));
+app.use("/api/fields", require("./routes/fields.js"));
+app.use("/api/machines", require("./routes/machines.js"));
 app.use("/api/services", require("./routes/services.js"));
 
 

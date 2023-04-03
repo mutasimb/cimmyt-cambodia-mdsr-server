@@ -142,15 +142,13 @@ router.post("/save", authMiddleware, async (req, res) => {
       !adm3 ||
       !address ||
       !lon ||
-      !lat ||
-      !dob ||
-      !sex
+      !lat
     ) {
 
       return res
         .status(406)
         .json({
-          message: "Please make sure the following required information have been provided:\nName, User Type, Address, Geolocation, Date of Birth, Sex"
+          message: "Please make sure the following required information have been provided:\nName, User Type, Address, Geolocation"
         });
 
     } else if (uType) {
@@ -177,14 +175,13 @@ router.post("/save", authMiddleware, async (req, res) => {
           });
 
         if(fields.some(field => (
-          !field.name ||
           !field.lon ||
           !field.lat ||
           !field.area
         ))) return res
           .status(406)
           .json({
-            message: "Please make sure you have provided the following for all of the fields:\nLabel, Geolocation, Area"
+            message: "Please make sure you have provided the following for all of the fields:\nGeolocation, Area"
           });
 
         const fieldsQueried = await Fields.find({ owner: idUser });
@@ -205,8 +202,7 @@ router.post("/save", authMiddleware, async (req, res) => {
 
             const fieldQueried = await Fields.findById(field._id);
 
-            fieldQueried.name = field.name;
-            fieldQueried.description = field.description;
+            fieldQueried.address = field.address;
             fieldQueried.lon = +field.lon;
             fieldQueried.lat = +field.lat;
             fieldQueried.area = +field.area;
@@ -217,8 +213,7 @@ router.post("/save", authMiddleware, async (req, res) => {
 
             const
               newField = new Fields({
-                name: field.name,
-                description: field.description,
+                address: field.address,
                 owner: idUser,
                 lon: +field.lon,
                 lat: +field.lat,

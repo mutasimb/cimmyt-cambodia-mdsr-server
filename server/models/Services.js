@@ -4,8 +4,8 @@ const
   ServiceSchema = new Schema({
     client: { type: Schema.Types.ObjectId, ref: "users", required: true },
     provider: { type: Schema.Types.ObjectId, ref: "users", required: true },
-    dateStart: { type: Date },
-    dateEnd: { type: Date },
+    dateStart: { type: Number, default: null },
+    dateEnd: { type: Number, default: null },
     clientSeen: { type: Boolean, default: false },
     providerSeen: { type: Boolean, default: false },
     clientAgreed: { type: Boolean, default: false },
