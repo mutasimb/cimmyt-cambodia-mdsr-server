@@ -1,6 +1,9 @@
 const
   express = require("express"),
   { genSalt, hash, compare } = require("bcryptjs"),
+  { verify } = require("jsonwebtoken"),
+
+  { jwtSecret } = require("../config/keys.js"),
 
   authMiddleware = require("../middleware/auth.js"),
   createToken = require("../utils/token.js"),
@@ -12,6 +15,24 @@ const
 
   router = express.Router();
 
+
+// @route    POST /api/users/token
+// @desc     Check the token for the nuxt middleware
+// @access   Public
+router.get("/token", (req, res) => {
+  const token = req.get("x-auth-token");
+
+  if (!token || !token.startsWith("Bearer ")) return res.json({ message: 'No token' });
+
+  verify(
+    token.split(" ")[1],
+    jwtSecret,
+    (err, decoded) => {
+      console.log({ err, decoded });
+      return res.json({ message: err ? 'Invalid token' : decoded.user });
+    }
+  );
+});
 
 // @route    POST /api/users/register
 // @desc     Register new user
@@ -68,7 +89,7 @@ router.post("/login", async (req, res) => {
 });
 
 // @route    GET /api/users/data
-// @desc     Get user signed-in user via token
+// @desc     Get signed-in user via token
 // @access   Private
 router.get("/data", authMiddleware, async (req, res) => {
   const { idUser } = req;
@@ -88,7 +109,7 @@ router.get("/data", authMiddleware, async (req, res) => {
 // @route    GET /api/users/providers
 // @desc     Get users who are providers
 // @access   Private
-router.get("/providers", authMiddleware, async (req, res) => {
+router.get("/providers", async (req, res) => {
   try {
     const providers = await Users
       .find({ uType: "Provider" })
