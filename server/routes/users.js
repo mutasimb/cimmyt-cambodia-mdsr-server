@@ -27,10 +27,7 @@ router.get("/token", (req, res) => {
   verify(
     token.split(" ")[1],
     jwtSecret,
-    (err, decoded) => {
-      console.log({ err, decoded });
-      return res.json({ message: err ? 'Invalid token' : decoded.user });
-    }
+    (err, decoded) => res.json({ message: err ? 'Invalid token' : decoded.user })
   );
 });
 
@@ -184,15 +181,15 @@ router.post("/save", authMiddleware, async (req, res) => {
       userQueried.address = address;
       userQueried.lon = +lon;
       userQueried.lat = +lat;
-      userQueried.dob = +dob;
-      userQueried.sex = sex;
+      if(dob) userQueried.dob = +dob;
+      if(sex) userQueried.sex = sex;
 
       if(uType === 'Farmer') {
 
         if(!fields.length) return res
           .status(406)
           .json({
-            message: "Please enlist at least one field in the 'Details' section of your profile"
+            message: "Please enlist field data in the 'Fields' tab of the profile page"
           });
 
         if(fields.some(field => (
@@ -253,7 +250,7 @@ router.post("/save", authMiddleware, async (req, res) => {
         if(!machines.length) return res
           .status(406)
           .json({
-            message: "Please enlist at least one machine in the 'Details' section of your profile"
+            message: "Please enlist machine information in the 'Details' section of your profile"
           });
 
         if(machines.some(machine => (
@@ -262,7 +259,7 @@ router.post("/save", authMiddleware, async (req, res) => {
         ))) return res
           .status(406)
           .json({
-            message: "Please make sure you have provided the following for all of the machines:\nLabel, Manufacturer"
+            message: "Please make sure you have provided the following for all of the machines:\nType, Manufacturer"
           });
 
         const machinesQueried = await Machines.find({ owner: idUser });

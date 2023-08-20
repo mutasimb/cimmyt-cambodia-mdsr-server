@@ -9,12 +9,14 @@ const
 
 router.post('/new', authMiddleware, async (req, res) => {
   const
-    { idUser } = req,
+    { idUser, body } = req,
     {
       provider,
       field,
-      machine
-    } = req.body;
+      machine,
+      service: serviceType,
+      dateStart
+    } = body;
 
   try {
     const
@@ -24,7 +26,9 @@ router.post('/new', authMiddleware, async (req, res) => {
         clientSeen: true,
         clientAgreed: true,
         field,
-        machine
+        machine,
+        service: serviceType,
+        dateStart
       }),
 
       savedService = await service.save(),
