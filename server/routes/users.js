@@ -129,6 +129,7 @@ router.post("/save", authMiddleware, async (req, res) => {
       _id,
       name,
       uType,
+      picture,
       adm1,
       adm2,
       adm3,
@@ -175,6 +176,7 @@ router.post("/save", authMiddleware, async (req, res) => {
 
       userQueried.name = name;
       userQueried.uType = uType;
+      userQueried.picture = picture;
       userQueried.adm1 = adm1;
       userQueried.adm2 = adm2;
       userQueried.adm3 = adm3;

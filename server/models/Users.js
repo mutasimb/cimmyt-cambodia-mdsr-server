@@ -6,6 +6,7 @@ const
     phone: { type: String, unique: true },
     password: { type: String, required: true },
     uType: { type: String, default: '' },
+    picture: { type: String, default: null },
     adm1: { type: String, default: '' },
     adm2: { type: String, default: '' },
     adm3: { type: String, default: '' },
